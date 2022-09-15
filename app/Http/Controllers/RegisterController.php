@@ -3,82 +3,67 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
+        if (Auth::check()) {
+            return redirect('/');
+        }
         return view('register');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'user' => 'required',
+            'email' => ['required', 'email'],
+            'password' => 'required',
+            'passwordConfirm' => 'required',
+        ],[
+            'user.required' => 'Preencha o campo de usúario',
+            'email.required' => 'Preencha o campo de email.',
+            'email.email' => 'Email inválido',
+            'password.required' => 'Preencha o campo de senha',
+            'passwordConfirm.required' => 'Preencha o campo de confirmar senha'
+        ]);
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        $email = DB::table('users')->where('email', $request->input('email'))->first();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+        if ($email) {
+            return redirect()->route('user.register')->with('error', 'Email já cadastrado!');
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+        if($request->input('password') !== $request->input('passwordConfirm')) {
+            return redirect()->route('user.register')->with('error', 'Senha e confirmar senha não correspondem!');
+        }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        $create = User::create([
+            'name'     => $request->input('user'),
+            'email'    => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
+        ]);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        if ($create) {
+
+            $credentials = [
+                'email'    => $request->input('email'),
+                'password' => $request->input('password')
+            ];
+
+            if (Auth::attempt($credentials)) {
+                $request->session()->regenerate();
+                return redirect('/');
+            }
+        }
+
+        return redirect()->route('user.register')->with('error', 'Erro ao realizar cadastro, tente novamente!');
+
     }
 }

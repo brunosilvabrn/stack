@@ -16,8 +16,19 @@ use App\Http\Controllers\RegisterController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
-Route::get('/login', [LoginController::class, 'index']);
-Route::get('/register', [RegisterController::class, 'index']);
+Route::get('/login', [LoginController::class, 'index'])->name('user.login');
+Route::post('/login/authenticate', [LoginController::class, 'authenticate'])->name('user.authenticate');
+Route::get('/register', [RegisterController::class, 'index'])->name('user.register');
+Route::post('/register/create', [RegisterController::class, 'create'])->name('user.create');
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/teste', function () {
+        return 'tew';
+    });
+
+    Route::get('/logout', [LoginController::class, 'destroy'])->name('user.logout');
+});
