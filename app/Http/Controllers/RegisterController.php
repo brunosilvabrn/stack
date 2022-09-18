@@ -23,26 +23,18 @@ class RegisterController extends Controller
     {
         $request->validate([
             'user' => 'required',
-            'email' => ['required', 'email'],
+            'email' => ['required', 'email', 'unique:users',],
             'password' => 'required',
-            'passwordConfirm' => 'required',
+            'passwordConfirm' => ['required', 'same:password'],
         ],[
             'user.required' => 'Preencha o campo de usúario',
             'email.required' => 'Preencha o campo de email.',
+            'email.unique' => 'Email já cadastrado!',
             'email.email' => 'Email inválido',
             'password.required' => 'Preencha o campo de senha',
-            'passwordConfirm.required' => 'Preencha o campo de confirmar senha'
+            'passwordConfirm.required' => 'Preencha o campo de confirmar senha',
+            'passwordConfirm.same' => 'Senha e confirmar senha não correspondem!'
         ]);
-
-        $email = DB::table('users')->where('email', $request->input('email'))->first();
-
-        if ($email) {
-            return redirect()->route('user.register')->with('error', 'Email já cadastrado!');
-        }
-
-        if($request->input('password') !== $request->input('passwordConfirm')) {
-            return redirect()->route('user.register')->with('error', 'Senha e confirmar senha não correspondem!');
-        }
 
         $create = User::create([
             'name'     => $request->input('user'),
