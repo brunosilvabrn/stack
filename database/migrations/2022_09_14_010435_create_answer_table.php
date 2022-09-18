@@ -13,12 +13,12 @@ class CreateAnswerTable extends Migration
      */
     public function up()
     {
-        Schema::create('answer', function (Blueprint $table) {
+        Schema::create('answers', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_user')->unsigned();
-            $table->foreign('id_user')->references('id')->on('users');
-            $table->integer('id_question')->unsigned();
-            $table->foreign('id_question')->references('id')->on('question');
+            $table->unsignedBigInteger('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('question_id')->unsigned();
+            $table->foreign('question_id')->references('id')->on('questions');
             $table->longText('description');
             $table->longText('code');
             $table->timestamps();

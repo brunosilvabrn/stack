@@ -13,12 +13,12 @@ class CreateLikeAnswerTable extends Migration
      */
     public function up()
     {
-        Schema::create('like_answer', function (Blueprint $table) {
+        Schema::create('like_answers', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_user')->unsigned();
-            $table->foreign('id_user')->references('id')->on('users');
-            $table->integer('id_answer')->unsigned();
-            $table->foreign('id_answer')->references('id')->on('answer');
+            $table->unsignedBigInteger('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('id_answer')->unsigned();
+            $table->foreign('id_answer')->references('id')->on('answers');
             $table->timestamps();
         });
     }
