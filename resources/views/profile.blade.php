@@ -66,25 +66,36 @@
             <div class="bg-white bg-white shadow rounded-lg p-5 lg:p-10 mt-6 rounded-lg">
                 <h3 class="text-gray-600 text-sm font-semibold mb-4">Suas perguntas | {{ $qtdQuestions }}</h3>
                 <hr>
-                @foreach($questions as $question)
-                    <div class="bg-white my-4 rounded overflow-hidden shadow-md">
-                        <div class="px-6 py-4">
-                            <div class="font-bold text-2xl mb-2 text-center">{{ $question->title  }}</div>
-                            <hr class="my-4">
-                            <p class="text-gray-700 text-base">
-                                {{ $question->description }}
-                            </p>
+
+                @if($qtdQuestions > 0)
+
+                    @foreach($questions as $question)
+                        <div class="bg-white my-4 rounded overflow-hidden shadow-md">
+                            <div class="px-6 py-4">
+                                <div class="font-bold text-2xl mb-2 text-center">{{ $question->title  }}</div>
+                                <hr class="my-4">
+                                <p class="text-gray-700 text-base">
+                                    {{ $question->description }}
+                                </p>
+                            </div>
+                            <div class="px-6 pt-4 pb-4 flex justify-between">
+                                <a href="{{ route('question.show', $question->slug) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                    Ver pergunta
+                                </a>
+                                <button onclick="excluirPergunta({{ $question->id }})" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                    Excluir
+                                </button>
+                            </div>
                         </div>
-                        <div class="px-6 pt-4 pb-4 flex justify-between">
-                            <a href="{{ route('question.show', $question->slug) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                Ver pergunta
-                            </a>
-                            <a href="#" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                                Excluir
-                            </a>
-                        </div>
+                    @endforeach
+
+                @else
+
+                    <div class="my-4 rounded overflow-hidden">
+                        <div class="font-bold text-md mb-2 text-center">Nenhuma pergunta</div>
                     </div>
-                @endforeach
+
+                @endif
             </div>
         </div>
 
@@ -119,8 +130,36 @@
                         <div class="font-bold text-md mb-2 text-center">Nenhuma resposta</div>
                     </div>
                 @endif
+
+                <template id="deletePergunta">
+                    <swal-title>
+                        Deseja realemte excluír essa pergunta?
+                    </swal-title>
+                    <swal-icon type="warning" color="red"></swal-icon>
+                    <swal-button type="confirm" color="red">
+                        Excluir
+                    </swal-button>
+                    <swal-button type="cancel">
+                        Cancel
+                    </swal-button>
+                    <swal-param name="allowEscapeKey" value="false" />
+                    <swal-param
+                        name="customClass"
+                        value='{ "popup": "my-popup" }' />
+                </template>
             </div>
     </main>
 </div>
+
+    <script>
+
+        function excluirPergunta(id) {
+            Swal.fire({
+                template: '#deletePergunta'
+            })
+
+        }
+
+    </script>
 
 @endsection

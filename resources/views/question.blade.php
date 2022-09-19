@@ -35,10 +35,14 @@
                 </div>
 
                 <div class="flex justify-end">
+                    @if(Auth::check())
                     <button id="btnResp" onclick="responder()"
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Responder
                     </button>
+                    @else
+                        <a href="{{ route('user.login') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Responder</a>
+                    @endif
                 </div>
 
 
