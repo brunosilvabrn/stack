@@ -1,6 +1,21 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
-<p align="center">
+<hr>
+
+## Plataforma de ajuda para estudantes de T.I.
+
+Estou desenvolvendo uma plataforma para ajudar iniciantes no mundo da programação, sistema semelhante ao [Stackoverflow](https://pt.stackoverflow.com/),
+mas com foco em inicantes na programação.
+
+### Dados técnicos 
+Sistema Desenvolvido em LARAVEL 9
+<br>
+HTML, CSS [tailwind](https://tailwindcss.com/) e JavaScript.
+
+## 📦 EM DESENVOLVIMENTO
+⌨️ Feito por [Bruno Lopes Silva](https://github.com/brunosilvabrn) 
+
+<!-- <p align="center">
 <a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
@@ -61,4 +76,4 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT). -->
