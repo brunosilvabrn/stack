@@ -32,9 +32,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('user.profile');
     Route::get('/ask', [QuestionController::class, 'index'])->name('ask');
     Route::post('/ask/create', [QuestionController::class, 'create'])->name('ask.create');
+    Route::post('/ask/like', [AnswerController::class, 'like'])->name('ask.like');
     Route::post('answer/create/{id}', [AnswerController::class, 'create'])->name('answer.create');
     Route::delete('question/delete', [QuestionController::class, 'destroy'])->name('question.delete');
-
 
     Route::get('/logout', [LoginController::class, 'destroy'])->name('user.logout');
 });

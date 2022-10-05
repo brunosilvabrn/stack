@@ -7,6 +7,7 @@ use App\Models\Question;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class Answer extends Model
 {
     use HasFactory;
@@ -26,5 +27,10 @@ class Answer extends Model
     public function question()
     {
         return $this->belongsTo(Question::class, 'question_id', 'id');
+    }
+
+    public function like()
+    {
+        return $this->hasMany(Like::class, 'answer_id', 'id');
     }
 }

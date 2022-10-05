@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Question;
 use App\Models\Answer;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class QuestionController extends Controller
 {
@@ -16,6 +18,9 @@ class QuestionController extends Controller
 
     public function create (Request $request)
     {
+//        $t = str_replace(['[', '{', '"', '}', ']', '"', "value:"], "" , $request->input('tags'));
+//        $t = explode(',', $t);
+//        ddd($t);
         $request->validate([
             'title' => 'required',
             'description' => ['required']
@@ -48,10 +53,12 @@ class QuestionController extends Controller
         if ($question) {
             $id = $question->id;
             $answers = Answer::all()->where('question_id', $id);
+            $user = User::where('id', Auth::user()->id)->first();
 
             $result = [
                 'result' => $question,
                 'answers' => $answers,
+                'user' => $user,
             ];
 
             return view('question', $result);

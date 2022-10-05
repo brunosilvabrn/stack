@@ -2,6 +2,7 @@
 
 @section('content')
     <link rel="stylesheet" href="{{ asset('css/codemirror.min.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.16.4/tagify.min.css" integrity="sha512-Ft73YZFLhxI8baaoTdSPN8jKRPhYu441A8pqlqf/CvGkUOaLCLm59ZWMdls8lMBPjs1OZ31Vt3cmZsdBa3EnMw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <div class="container m-auto">
         <main class="grid grid-cols-1 lg:grid-cols-1 gap-6 my-12 mx-2 md:mx-12 w-1xl px-2 mx-auto my-5">
             <div class="bg-white shadow mt-6 rounded-lg p-5 w-1xl">
@@ -19,6 +20,16 @@
                     <label for="message" class="block mb-2 mt-2 text-sm font-medium text-gray-900 dark:text-gray-400">Código</label>
                     <div style="border: 1px solid #d2d5db;">
                         <textarea id="codigo" name="code" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Seu Código"></textarea>
+                    </div>
+
+                    <label for="message" class="block mb-2 mt-3 text-sm font-medium text-gray-900 dark:text-gray-400">Tags</label>
+                    <div class="mb-4">
+                        <input name='tags'
+                               id = 'tags'
+                               class='some_class_name w-full'
+                               placeholder='Javascript, Python, HTML'
+                               value=''
+                               data-blacklist=''>
                     </div>
 
                     <div class="mt-4 flex justify-center">
@@ -59,6 +70,7 @@
         </main>
     </div>
     <script src="{{ asset('js/codemirror.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.16.4/tagify.min.js" integrity="sha512-n4I5uDuUB8yUUgtvvof4qCkG+T1+LttX3dvF0pzXsmSkqpUftknK160gQ4fQsHvkAgeBbovg9p1kNKlHXEYhZA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         let myTextarea = document.getElementById('codigo');
 
@@ -70,6 +82,77 @@
         function closeAlert() {
             let alert = document.getElementById("alert");
             alert.remove();
+        }
+
+        var inputElm = document.querySelector('input[name=tags]'),
+            whitelist = ["JavaScript", "SQL", "Postgresql", "Mongodb", "Mysql", "Banco de Dados","CSS", "HTML", "Python", "Java", "PHP", "C#", "C++", "TypeScript", "Ruby", "C", "Swift", "R", "Objective-C", "Scala;", "Shell", "Go", "PowerShell", "Kotlin", "Rust", "Dart", "Programação Web", "Django", ".NET"];
+
+        var tagify = new Tagify(inputElm, {
+            enforceWhitelist: true,
+
+            whitelist: inputElm.value.trim().split(/\s*,\s*/)
+        })
+
+        // Chainable event listeners
+        tagify.on('add', onAddTag)
+            .on('remove', onRemoveTag)
+            .on('input', onInput)
+            .on('edit', onTagEdit)
+            .on('invalid', onInvalidTag)
+            .on('click', onTagClick)
+            .on('focus', onTagifyFocusBlur)
+            .on('blur', onTagifyFocusBlur)
+            .on('dropdown:hide dropdown:show', e => console.log(e.type))
+            .on('dropdown:select', onDropdownSelect)
+
+        var mockAjax = (function mockAjax(){
+            var timeout;
+            return function(duration){
+                clearTimeout(timeout); // abort last request
+                return new Promise(function(resolve, reject){
+                    timeout = setTimeout(resolve, duration || 700, whitelist)
+                })
+            }
+        })()
+
+        function onAddTag(e){
+            tagify.off('add', onAddTag)
+        }
+
+        function onRemoveTag(e){
+            console.log("onRemoveTag:", e.detail, "tagify instance value:", tagify.value)
+        }
+
+        function onInput(e){
+            tagify.settings.whitelist.length = 0;
+            tagify.loading(true).dropdown.hide.call(tagify)
+
+            mockAjax()
+                .then(function(result){
+                    tagify.settings.whitelist.push(...result, ...tagify.value)
+                    tagify.loading(false).dropdown.show.call(tagify, e.detail.value);
+                })
+        }
+
+        function onTagEdit(e){
+            console.log("onTagEdit: ", e.detail);
+        }
+
+        function onInvalidTag(e){
+            console.log("onInvalidTag: ", e.detail);
+        }
+
+        function onTagClick(e){
+            console.log(e.detail);
+            console.log("onTagClick: ", e.detail);
+        }
+
+        function onTagifyFocusBlur(e){
+            console.log(e.type, "event fired")
+        }
+
+        function onDropdownSelect(e){
+            console.log("onDropdownSelect: ", e.detail)
         }
     </script>
 

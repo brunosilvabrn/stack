@@ -58,7 +58,11 @@
                 </div>
 
                 <div class="flex my-2">
-                    <span class="float-right text-sm font-semibold text-gray-700">{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $question->created_at)->format('d/m/Y - H:i') }}</span>
+                    <span class="float-right text-sm font-semibold text-gray-700">
+                        @php
+                            echo str_replace(' ', ' ás ', \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $question->created_at)->format('d/m/Y H:i'));
+                        @endphp
+                    </span>
                 </div>
 
                 <hr class="my-2">
