@@ -136,15 +136,17 @@
                     @php
 
                         $classStyle = 'bg-transparent hover:bg-green-500 hover:text-white text-green-700 border-green-500';
+                        $onClick = 'onclick=redirectLogin()';
 
                         if (Auth::check()) {
+                            $onClick = 'onclick="like({{ $answer->id }})"';
                             $existsLikeUser = DB::table('likes')->where('user_id', '=', Auth::user()->id)->where('answer_id', '=', $answer->id)->count();
                             if ($existsLikeUser) {
                                 $classStyle = 'border-green-500 hover:border-red-500 bg-green-500 text-white hover:bg-transparent hover:text-red-700';
                             }
                         }
                     @endphp
-                    <button id="{{ $answer->id }}" onclick="like({{ $answer->id }})" value="10"
+                    <button id="{{ $answer->id }}" {{ $onClick }} value="10"
                             class="{{ $classStyle }} font-semibold py-2 px-4 border rounded flex mr-3">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                              stroke="currentColor" class="w-6 h-6 mr-2">
@@ -270,6 +272,10 @@
         function closeAlert() {
             let alert = document.getElementById("alert");
             alert.remove();
+        }
+
+        function redirectLogin() {
+            window.location.href = "{{ route('user.login') }}";
         }
 
         @if ($errors->any() || session('error'))
