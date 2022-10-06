@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class QuestionController extends Controller
 {
@@ -18,9 +19,6 @@ class QuestionController extends Controller
 
     public function create (Request $request)
     {
-//        $t = str_replace(['[', '{', '"', '}', ']', '"', "value:"], "" , $request->input('tags'));
-//        $t = explode(',', $t);
-//        ddd($t);
         $request->validate([
             'title' => 'required',
             'description' => ['required']
@@ -29,7 +27,7 @@ class QuestionController extends Controller
             'description.required' => 'Preencha o campo de descrição.',
         ]);
 
-        $slug = $this->slugUrl($request->input('title')).'-'.mt_rand(10000,99999);
+        $slug = Str::slug($request->input('title').' '.mt_rand(10000,99999));
 
         $create = Question::create([
             'user_id'     => Auth::user()->id,
@@ -68,15 +66,4 @@ class QuestionController extends Controller
         return redirect()->to('/');
     }
 
-    private function slugUrl($text, string $divider = '-') : string
-    {
-        $text = preg_replace('~[^\pL\d]+~u', $divider, $text);
-        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
-        $text = preg_replace('~[^-\w]+~', '', $text);
-        $text = trim($text, $divider);
-        $text = preg_replace('~-+~', $divider, $text);
-        $text = strtolower($text);
-
-        return (!empty($text) ? $text : false);
-    }
 }
