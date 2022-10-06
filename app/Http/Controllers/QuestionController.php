@@ -53,7 +53,8 @@ class QuestionController extends Controller
         if ($question) {
             $id = $question->id;
             $answers = Answer::all()->where('question_id', $id);
-            $user = User::where('id', Auth::user()->id)->first();
+
+            $user = Auth::check() ? User::where('id', Auth::user()->id)->first() : Null;
 
             $result = [
                 'result' => $question,
