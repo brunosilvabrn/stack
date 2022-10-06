@@ -139,7 +139,7 @@
                         $onClick = 'onclick=redirectLogin()';
 
                         if (Auth::check()) {
-                            $onClick = 'onclick="like({{ $answer->id }})"';
+                            $onClick = "onclick=like($answer->id)";
                             $existsLikeUser = DB::table('likes')->where('user_id', '=', Auth::user()->id)->where('answer_id', '=', $answer->id)->count();
                             if ($existsLikeUser) {
                                 $classStyle = 'border-green-500 hover:border-red-500 bg-green-500 text-white hover:bg-transparent hover:text-red-700';
