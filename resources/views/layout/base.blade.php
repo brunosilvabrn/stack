@@ -5,10 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StackOverSendit</title>
-    <link rel="stylesheet" href="{{ asset('css/flowbite.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/flowbite.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 
 <body class="bg-slate-100">

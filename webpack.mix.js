@@ -12,6 +12,10 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
+    .js("./node_modules/sweetalert2/dist/SweetAlert2.all.js", "public/js")
+    .css("./node_modules/sweetalert2/dist/sweetalert2.css", "public/css")
+    .js("./node_modules/flowbite/dist/flowbite.js", "public/js")
+    .css("./node_modules/flowbite/dist/flowbite.css", "public/css")
     .postCss('resources/css/app.css', 'public/css', [
-        //
+        require("tailwindcss"),
     ]);

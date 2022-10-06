@@ -1,4 +1,9 @@
 /******/ (() => { // webpackBootstrap
+var __webpack_exports__ = {};
+/*!************************************************!*\
+  !*** ./node_modules/flowbite/dist/flowbite.js ***!
+  \************************************************/
+/******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 var __webpack_exports__ = {};
 
@@ -1403,7 +1408,7 @@ function popperGenerator(generatorOptions) {
     return instance;
   };
 }
-var createPopper = /*#__PURE__*/(/* unused pure expression or super */ null && (popperGenerator())); // eslint-disable-next-line import/no-unused-modules
+var createPopper = /*#__PURE__*/(/* unused pure expression or super */ null && (0)); // eslint-disable-next-line import/no-unused-modules
 
 
 ;// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/modifiers/eventListeners.js
@@ -3992,3 +3997,5 @@ if (document.readyState !== 'loading') {
 /******/ })()
 ;
 //# sourceMappingURL=flowbite.js.map
+/******/ })()
+;
