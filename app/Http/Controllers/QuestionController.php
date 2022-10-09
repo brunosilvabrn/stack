@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categories;
 use App\Models\Question;
 use App\Models\Answer;
+use App\Models\QuestionCategory;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +16,14 @@ class QuestionController extends Controller
 {
     public function index()
     {
-        return view('ask');
+        $categories = Categories::all();
+        $nameCategories = [];
+
+        foreach ($categories as $key => $value) {
+            $nameCategories[] = $value->name;
+        }
+
+        return view('ask', ['categories' => $nameCategories]);
     }
 
     public function create (Request $request)
@@ -38,6 +47,22 @@ class QuestionController extends Controller
         ]);
 
         if ($create) {
+            $questionCreatedId = DB::table('questions')->orderBy('id', 'desc')->first();
+            $replaced = Str::replace(['[', '{', '"', '}', ']', '"', "value:"], "" , $request->input('tags'));
+            $collection = Str::of($replaced)->explode(',');
+            $questionId = $questionCreatedId->id ?? null;
+
+            foreach ($collection as $value)
+            {
+                $category= Categories::where('name', '=', $value)->first();
+                if ($category) {
+                    DB::table('question_categories')->insert([
+                        'question_id' => $questionId,
+                        'category_id' => $category->id
+                    ]);
+                }
+            }
+
             return redirect(route('question.show', $slug));
         }
 

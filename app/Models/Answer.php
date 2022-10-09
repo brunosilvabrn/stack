@@ -33,4 +33,5 @@ class Answer extends Model
     {
         return $this->hasMany(Like::class, 'answer_id', 'id');
     }
+
 }

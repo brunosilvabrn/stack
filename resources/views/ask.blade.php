@@ -11,7 +11,7 @@
                 <form class="w-full" method="POST" action="{{ route('ask.create') }}">
                     @csrf
 
-                    <label for="message" class="block my-2 text-sm font-medium text-gray-900 dark:text-gray-400">Título</label>
+                    <label for="title" class="block my-2 text-sm font-medium text-gray-900 dark:text-gray-400">Título</label>
                     <input type="text" name="title" id="title" minlength="10" class="block mb-4 p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Título"></input>
 
                     <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Descrição</label>
@@ -84,10 +84,15 @@
             alert.remove();
         }
 
-        var inputElm = document.querySelector('input[name=tags]'),
-            whitelist = ["JavaScript", "SQL", "Postgresql", "Mongodb", "Mysql", "Banco de Dados","CSS", "HTML", "Python", "Java", "PHP", "C#", "C++", "TypeScript", "Ruby", "C", "Swift", "R", "Objective-C", "Scala;", "Shell", "Go", "PowerShell", "Kotlin", "Rust", "Dart", "Programação Web", "Django", ".NET"];
+        let inputElm = document.querySelector('input[name=tags]'),
+            whitelist =[
+                @foreach($categories as $key => $value)
+                    "{{ $value }}",
+                @endforeach
+            ];
 
-        var tagify = new Tagify(inputElm, {
+
+        let tagify = new Tagify(inputElm, {
             enforceWhitelist: true,
 
             whitelist: inputElm.value.trim().split(/\s*,\s*/)
@@ -105,8 +110,8 @@
             .on('dropdown:hide dropdown:show', e => console.log(e.type))
             .on('dropdown:select', onDropdownSelect)
 
-        var mockAjax = (function mockAjax(){
-            var timeout;
+        let mockAjax = (function mockAjax(){
+            let timeout;
             return function(duration){
                 clearTimeout(timeout); // abort last request
                 return new Promise(function(resolve, reject){
