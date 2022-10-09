@@ -19,7 +19,8 @@
 
                     <label for="message" class="block mb-2 mt-2 text-sm font-medium text-gray-900 dark:text-gray-400">Código</label>
                     <div style="border: 1px solid #d2d5db;">
-                        <textarea id="codigo" name="code" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Seu Código"></textarea>
+{{--                        <textarea id="codigo" name="code" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Seu Código"></textarea>--}}
+                        <textarea id='codigo' name="code"></textarea>
                     </div>
 
                     <label for="message" class="block mb-2 mt-3 text-sm font-medium text-gray-900 dark:text-gray-400">Tags</label>
@@ -72,12 +73,13 @@
     <script src="{{ asset('js/codemirror.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.16.4/tagify.min.js" integrity="sha512-n4I5uDuUB8yUUgtvvof4qCkG+T1+LttX3dvF0pzXsmSkqpUftknK160gQ4fQsHvkAgeBbovg9p1kNKlHXEYhZA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
-        let myTextarea = document.getElementById('codigo');
 
-        let editor = CodeMirror.fromTextArea(myTextarea, {
+        let editor = CodeMirror.fromTextArea(document.getElementById('codigo'), {
+            mode: "javascript",
             lineNumbers: true,
-            mode: "javascript"
         });
+
+        editor.save()
 
         function closeAlert() {
             let alert = document.getElementById("alert");
