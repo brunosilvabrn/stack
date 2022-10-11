@@ -41,7 +41,7 @@
                         Responder
                     </button>
                     @else
-                        <a href="{{ route('user.login') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Responder</a>
+                        <button onclick="redirectLogin()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Responder</button>
                     @endif
                 </div>
 
@@ -275,7 +275,7 @@
         }
 
         function redirectLogin() {
-            window.location.href = "{{ route('user.login') }}";
+            window.location.href = "{{ route('user.login') }}?redirect={{ 'question/' . $result->slug }}";
         }
 
         @if ($errors->any() || session('error'))
