@@ -91,4 +91,26 @@ class QuestionController extends Controller
         return redirect()->to('/');
     }
 
+    public function search(Request $request)
+    {
+        $param = $request->input('search');
+
+        $questions = Question::where('title', 'LIKE', '%' . $param . '%')->get();
+
+        $categories = DB::table('categories')->whereExists(function ($query) {
+            $query->select(DB::raw(1))
+                ->from('question_categories')
+                ->whereColumn('question_categories.category_id', 'categories.id');
+        })->count();
+//        dd($categories);
+//
+//        $questions = Question::all()->sortDesc();
+
+        $dice = [
+            'questions' => $questions,
+        ];
+
+        return view('search', $dice);
+    }
+
 }

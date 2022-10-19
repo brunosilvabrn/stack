@@ -6,7 +6,7 @@
     <div class="container m-auto ">
         <div class="bg-white rounded overflow-hidden shadow-md p-3 m-4">
             <div>
-                <form>
+                <form method="GET" action="{{ route('question.search') }}">
                     <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">Search</label>
                     <div class="relative">
                         <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">

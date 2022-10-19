@@ -26,6 +26,7 @@ Route::post('/login/authenticate', [LoginController::class, 'authenticate'])->na
 Route::get('/register', [RegisterController::class, 'index'])->name('user.register');
 Route::post('/register/create', [RegisterController::class, 'create'])->name('user.create');
 Route::get('/question/{slug}', [QuestionController::class, 'show'])->name('question.show');
+Route::get('/search', [QuestionController::class, 'search'])->name('question.search');
 
 Route::middleware('auth')->group(function () {
 
