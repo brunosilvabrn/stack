@@ -102,9 +102,6 @@ class QuestionController extends Controller
                 ->from('question_categories')
                 ->whereColumn('question_categories.category_id', 'categories.id');
         })->count();
-//        dd($categories);
-//
-//        $questions = Question::all()->sortDesc();
 
         $dice = [
             'questions' => $questions,
